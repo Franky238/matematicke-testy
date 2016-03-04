@@ -36,6 +36,8 @@ class TestController extends Controller
             $em->persist($test);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'Test bol vytvorený');
+
+            return $this->redirectToRoute('teacher/index');
         }
 
         return array(

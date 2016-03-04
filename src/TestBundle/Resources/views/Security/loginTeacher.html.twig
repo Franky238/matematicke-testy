@@ -1,0 +1,39 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-user-times"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Prihlásenie učiteľa
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form action="{{ path('_login_check_teacher') }}" method="POST">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <div class="form-group">
+                            <input name="_username" type="text" class="form-control" placeholder="Username" />
+                        </div>
+                        <div class="form-group">
+                            <input name="_password" type="password" class="form-control" placeholder="Password" />
+                        </div>
+                        <label class="pull-right">
+                            Zapamätať prihlásenie
+                            <input type="checkbox" id="remember_me" class="ace" name="_remember_me" />
+                        </label>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-sign-in"></i>
+                            Prihlásiť sa
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

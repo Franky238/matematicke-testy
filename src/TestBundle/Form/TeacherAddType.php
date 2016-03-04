@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserAddType extends AbstractType
+class TeacherAddType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -34,9 +34,8 @@ class UserAddType extends AbstractType
                     'attr' => array('class' => 'form-control', 'placeholder' => 'Zopakuj heslo...')
                 ),
                 'type' => 'password',
-        ))
+            ))
         ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -46,6 +45,6 @@ class UserAddType extends AbstractType
 
     public function getName()
     {
-        return 'test_bundle_user_add_type';
+        return 'test_bundle_teacher_add_type';
     }
 }

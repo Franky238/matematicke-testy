@@ -2,8 +2,9 @@
 
 namespace TestBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
 /**
  * User
@@ -11,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="TestBundle\Entity\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var integer
@@ -58,15 +59,20 @@ class User implements UserInterface, \Serializable
     private $salt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="TestBundle\Entity\Classroom", inversedBy="users")
-     * @ORM\JoinColumn(name="classroom_id", referencedColumnName="id")
-     * @var Classroom
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Subject", mappedBy="users")
+     * @var object
      */
-    private $classroom;
+    private $subjects;
+
+    /**
+     * @ORM\Column(name="is_enabled", type="boolean")
+     */
+    private $isEnabled = true;
 
     public function __construct()
     {
         $this->salt = md5(uniqid(null, true));
+        $this->subjects = new ArrayCollection();
     }
 
     /**
@@ -190,22 +196,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return Classroom
-     */
-    public function getClassroom()
-    {
-        return $this->classroom;
-    }
-
-    /**
-     * @param Classroom $classroom
-     */
-    public function setClassroom($classroom)
-    {
-        $this->classroom = $classroom;
-    }
-
-    /**
      * @return string
      */
     public function serialize()
@@ -231,4 +221,63 @@ class User implements UserInterface, \Serializable
             ) = unserialize($serialized);
     }
 
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function setIsEnabled($isEnabled)
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function isEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
+     * Add subjects
+     *
+     * @param \TestBundle\Entity\Subject $subjects
+     * @return User
+     */
+    public function addSubject(\TestBundle\Entity\Subject $subjects)
+    {
+        $this->subjects[] = $subjects;
+
+        return $this;
+    }
+
+    /**
+     * Remove subjects
+     *
+     * @param \TestBundle\Entity\Subject $subjects
+     */
+    public function removeSubject(\TestBundle\Entity\Subject $subjects)
+    {
+        $this->subjects->removeElement($subjects);
+    }
+
+    /**
+     * Get subjects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSubjects()
+    {
+        return $this->subjects;
+    }
 }

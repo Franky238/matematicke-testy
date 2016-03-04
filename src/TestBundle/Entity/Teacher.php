@@ -58,14 +58,14 @@ class Teacher implements UserInterface, \Serializable
     private $salt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Classroom", inversedBy="teachers")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Subject", inversedBy="teachers")
      */
-    private $classrooms;
+    private $subjects;
 
     public function __construct()
     {
         $this->salt = md5(uniqid(null, true));
-        $this->classrooms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subjects = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -216,35 +216,35 @@ class Teacher implements UserInterface, \Serializable
 
 
     /**
-     * Add classrooms
+     * Add subjects
      *
-     * @param \TestBundle\Entity\Classroom $classrooms
+     * @param \TestBundle\Entity\Subject $subject
      * @return Teacher
      */
-    public function addClassroom(\TestBundle\Entity\Classroom $classrooms)
+    public function addSubject(\TestBundle\Entity\Subject $subject)
     {
-        $this->classrooms[] = $classrooms;
+        $this->subjects[] = $subject;
 
         return $this;
     }
 
     /**
-     * Remove classrooms
+     * Remove subjects
      *
-     * @param \TestBundle\Entity\Classroom $classrooms
+     * @param \TestBundle\Entity\Subject $subject
      */
-    public function removeClassroom(\TestBundle\Entity\Classroom $classrooms)
+    public function removeSubjects(\TestBundle\Entity\Subject $subject)
     {
-        $this->classrooms->removeElement($classrooms);
+        $this->subjects->removeElement($subject);
     }
 
     /**
-     * Get classrooms
+     * Get subjects
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getClassrooms()
+    public function getSubjects()
     {
-        return $this->classrooms;
+        return $this->subjects;
     }
 }

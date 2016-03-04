@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class
  *
- * @ORM\Table(name="classroom")
+ * @ORM\Table(name="subject")
  * @ORM\Entity
  */
-class Classroom
+class Subject
 {
     /**
      * @var integer
@@ -29,19 +29,20 @@ class Classroom
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="TestBundle\Entity\User", mappedBy="classroom")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\User", inversedBy="subjects")
+     * @ORM\JoinTable(name="subject_has_users")
      */
     private $users;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Test", inversedBy="classrooms")
-     * @ORM\JoinTable(name="classroom_has_test")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Test", inversedBy="subjects")
+     * @ORM\JoinTable(name="subject_has_test")
      */
     private $tests;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Teacher", mappedBy="classrooms")
-     * @ORM\JoinTable(name="teacher_has_classroom")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Teacher", mappedBy="subjects")
+     * @ORM\JoinTable(name="teacher_has_subject")
      */
     private $teachers;
 
@@ -70,7 +71,7 @@ class Classroom
      * Set name
      *
      * @param string $name
-     * @return Classroom
+     * @return Subject
      */
     public function setName($name)
     {
@@ -93,7 +94,7 @@ class Classroom
      * Add users
      *
      * @param \TestBundle\Entity\User $users
-     * @return Classroom
+     * @return Subject
      */
     public function addUser(\TestBundle\Entity\User $users)
     {
@@ -126,7 +127,7 @@ class Classroom
      * Add tests
      *
      * @param \TestBundle\Entity\Test $tests
-     * @return Classroom
+     * @return Subject
      */
     public function addTest(\TestBundle\Entity\Test $tests)
     {
@@ -159,7 +160,7 @@ class Classroom
      * Add teachers
      *
      * @param \TestBundle\Entity\Teacher $teachers
-     * @return Classroom
+     * @return Subject
      */
     public function addTeacher(\TestBundle\Entity\Teacher $teachers)
     {

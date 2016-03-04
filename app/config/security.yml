@@ -3,17 +3,56 @@
 security:
     encoders:
         TestBundle\Entity\User: md5
+        TestBundle\Entity\Teacher: md5
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-            user_entity:
+            student_entity:
                 entity: { class: TestBundle:User, property: username }
+            teacher_entity:
+                entity: { class: TestBundle:Teacher, property: username }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        student_area:
+            pattern: /student*
+            #http_basic: ~
+            provider: student_entity
+            remember_me:
+                key: "%secret%"
+                lifetime: 86400 # 1 day in seconds
+                path: /student
+                name: REMEMBEREME_STUDENT
+            form_login:
+                login_path: student/security/login
+                check_path: _login_check_student
+                csrf_provider: security.csrf.token_manager
+                default_target_path: /student/
+            logout:
+                path: student/security/logout
+                target: /login
+
+        teacher_area:
+            pattern: /teacher*
+            #http_basic: ~
+            provider: teacher_entity
+            remember_me:
+                key: "%secret%"
+                lifetime: 86400 # 1 day in seconds
+                path: /teacher
+                name: REMEMBEREME_TEACHER
+            form_login:
+                login_path: teacher/security/login
+                check_path: _login_check_teacher
+                csrf_provider: security.csrf.token_manager
+                default_target_path: /teacher/
+            logout:
+                path: teacher/security/logout
+                target: /login-teacher
 
         main:
             anonymous: ~

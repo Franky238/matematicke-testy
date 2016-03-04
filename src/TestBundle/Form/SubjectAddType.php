@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TestUploadType extends AbstractType
+class SubjectAddType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -15,11 +15,7 @@ class TestUploadType extends AbstractType
                 'label' => 'Názov',
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Názov...')
             ))
-            ->add('file', 'file', array(
-                'label' => 'Test',
-                'attr' => array('class' => 'form-control')
-            ))
-            ;
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
@@ -29,6 +25,6 @@ class TestUploadType extends AbstractType
 
     public function getName()
     {
-        return 'test_bundle_test_upload_type';
+        return 'test_bundle_subject_add_type';
     }
 }

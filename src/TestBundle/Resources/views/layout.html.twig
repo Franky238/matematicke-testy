@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="sk">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+</head>
+<body>
+    <div class="wrapper">
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        MathApp
+                        <i class="fa fa-calculator"></i>
+                    </a>
+                </li>
+                {% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') and not app.user %}
+                    <li>
+                    <a href="{{ path('student/security/login') }}">
+                        <i class="fa fa-sign-in"></i>
+                        Prihlásenie žiaka
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('student/register') }}">
+                        <i class="fa fa-user-plus"></i>
+                        Registrácia žiaka
+                    </a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="{{ path('teacher/security/login') }}">
+                        <i class="fa fa-graduation-cap"></i>
+                        Prihlásenie učiteľa
+                    </a>
+                </li>
+                {% elseif is_granted('ROLE_USER') %}
+                <li>
+                    <a href="{{ path('student/index') }}">
+                        <i class="fa fa-tachometer"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="divider"></li>
+                    <li>
+                        <a href="{{ path('student/security/logout') }}">
+                            <i class="fa fa-sign-out"></i>
+                            Odhlásiť sa
+                        </a>
+                    </li>
+                {% elseif is_granted('ROLE_TEACHER') %}
+                <li>
+                    <a href="{{ path('teacher/index') }}">
+                        <i class="fa fa-tachometer"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="divider"></li>
+                    <li>
+                        <a href="{{ path('teacher/add') }}">
+                            <i class="fa fa-user-plus"></i>
+                            Pridať učiteľa
+                        </a>
+                    </li>
+                <li class="divider"></li>
+                <li>
+                    <a href="{{ path('teacher/security/logout') }}">
+                        <i class="fa fa-sign-out"></i>
+                        Odhlásiť sa
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="#menu-toggle" class="btn btn-default btn-menu-collapse navbar-btn" id="menu-toggle">
+                        <i class="fa fa-bars fa-no-margin"></i>
+                    </a>
+                </div>
+                {% if app.user %}
+                    {% if is_granted('ROLE_TEACHER') %}
+                        {% set role = "učiteľ" %}
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        {% set role = "študent" %}
+                    {% endif %}
+                    <p class="navbar-text pull-right">
+                        Prihlásený ako
+                        <a href="#" data-toggle="tooltip" data-placement="bottom" title="{{ role }}">
+                            {{ app.user.name }} {{ app.user.surname }}
+                        </a>
+                    </p>
+                {% endif %}
+            </div>
+        </nav>
+        <div id="page-content-wrapper" class="animated hidden">
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    {% block body %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block js %}{% endblock %}
+
+    <script src="{{ asset('assets/js/jquery.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/script.js') }}" ></script>
+</body>
+</html>

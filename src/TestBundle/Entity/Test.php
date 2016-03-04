@@ -41,16 +41,16 @@ class Test
     private $file;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Classroom", mappedBy="tests")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Subject", mappedBy="tests")
      */
-    private $classrooms;
+    private $subjects;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->classrooms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subjects = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -193,35 +193,35 @@ class Test
     }
 
     /**
-     * Add classrooms
+     * Add subjects
      *
-     * @param \TestBundle\Entity\Classroom $classrooms
+     * @param \TestBundle\Entity\Subject $subject
      * @return Test
      */
-    public function addClassroom(\TestBundle\Entity\Classroom $classrooms)
+    public function addSubject(\TestBundle\Entity\Subject $subject)
     {
-        $this->classrooms[] = $classrooms;
+        $this->subjects[] = $subject;
 
         return $this;
     }
 
     /**
-     * Remove classrooms
+     * Remove subjects
      *
-     * @param \TestBundle\Entity\Classroom $classrooms
+     * @param \TestBundle\Entity\Subject $subject
      */
-    public function removeClassroom(\TestBundle\Entity\Classroom $classrooms)
+    public function removeSubject(\TestBundle\Entity\Subject $subject)
     {
-        $this->classrooms->removeElement($classrooms);
+        $this->subjects->removeElement($subject);
     }
 
     /**
-     * Get classrooms
+     * Get subjects
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getClassrooms()
+    public function getSubjects()
     {
-        return $this->classrooms;
+        return $this->subjects;
     }
 }

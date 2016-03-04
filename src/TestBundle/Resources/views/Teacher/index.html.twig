@@ -1,0 +1,157 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-lg-5">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Testy
+                    <a href="{{ path('test/create') }}" class="btn btn-success pull-right btn-xs">
+                        <i class="fa fa-file-pdf-o"></i>
+                        Pridaj test
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Názov</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for test in tests %}
+                            <tr>
+                                <td>{{ test.id }}</td>
+                                <td>{{ test.name }}</td>
+                                <td>
+                                    <a href="{{ asset('uploads/tests/') }}{{ test.path }}" class="btn btn-info btn-xs" download="{{ test.name }}">
+                                        <i class="fa fa-download"></i>
+                                        Stiahnuť
+                                    </a>
+                                    <a href="#!" class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash"></i>
+                                        Zmazať
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-heading">Žiaci</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Meno</th>
+                            <th>Priezvisko</th>
+                            <th>Tuke identif.</th>
+                            <th>Povoliť/Zakázať prihlasenie</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.surname }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    {% if not user.isEnabled %}
+                                    <a href="{{ path('user/enable', {'id': user.id}) }}" class="btn btn-success btn-xs">
+                                        <i class="fa fa-unlock"></i>
+                                        Povoliť
+                                    </a>
+                                    {% else %}
+                                    <a href="{{ path('user/disable', {'id': user.id}) }}" class="btn btn-danger btn-xs">
+                                        <i class="fa fa-lock"></i>
+                                        Zakázať
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Predmety
+                    <a href="{{ path('subject/add') }}" class="btn btn-success pull-right btn-xs">
+                        <i class="fa fa-book"></i>
+                        Pridaj predmet
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Názov</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for subject in subjects %}
+                            <tr>
+                                <td>{{ subject.id }}</td>
+                                <td>{{ subject.name }}</td>
+                                <td>
+                                    <a href="#!" class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash"></i>
+                                        Zmazať
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">Pridanie študenta do predmetu</div>
+                <div class="panel-body">
+                    <form action="{{ path('subject/add-student') }}" method="post">
+                        <select name="subject" id="subject">
+                            {% for subject in noLimitedSubjects %}
+                                <option value="{{ subject.id }}">{{ subject.id }} : {{ subject.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <select name="user" id="user">
+                            {% for user in noLimitedUsers %}
+                                <option value="{{ user.id }}">{{ user.id }} : {{ user.surname }} : {{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-xs btn-success">
+                            <i class="fa fa-user-plus"></i>
+                            Pridať
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

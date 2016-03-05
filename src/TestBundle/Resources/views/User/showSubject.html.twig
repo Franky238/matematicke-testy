@@ -9,7 +9,7 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Moje predmety
+                    Nevyplnené testy
                 </div>
                 <div class="panel-body">
                     <div class="dataTables_wrapper">
@@ -18,16 +18,22 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Názov</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for subject in subjects %}
+                            {% for test in subject.tests %}
                                 <tr>
-                                    <td>{{ subject.id }}</td>
+                                    <td>{{ test.id }}</td>
+                                    <td>{{ test.name }}</td>
                                     <td>
-                                        <a href="{{ path('user/show/subject', {'id': subject.id}) }}">
-                                            {{ subject.name }}
-
+                                        <a href="{{ asset('uploads/tests/') }}{{ test.path }}" class="btn btn-info btn-xs" download="{{ test.name }}">
+                                            <i class="fa fa-download"></i>
+                                            Stiahnuť
+                                        </a>
+                                        <a href="#!" class="btn btn-success btn-xs">
+                                            <i class="fa fa-upload"></i>
+                                            Odovzdať test
                                         </a>
                                     </td>
                                 </tr>

@@ -24,9 +24,9 @@ class TeacherController extends Controller
     {
         $maxResult = 5;
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('TestBundle:User')->findBy(array(), array(), $maxResult);
-        $tests = $em->getRepository('TestBundle:Test')->findBy(array(), array(), $maxResult);
-        $subjects = $em->getRepository('TestBundle:Subject')->findBy(array(), array(), $maxResult);
+        $users = $em->getRepository('TestBundle:User')->findBy(array(), array('id' => 'DESC'), $maxResult);
+        $tests = $em->getRepository('TestBundle:Test')->findBy(array(), array('id' => 'DESC'), $maxResult);
+        $subjects = $em->getRepository('TestBundle:Subject')->findBy(array(), array('id' => 'DESC'), $maxResult);
         $noLimitedSubjects = $em->getRepository('TestBundle:Subject')->findAll();
         $noLimitedUsers = $em->getRepository('TestBundle:User')->findAll();
 

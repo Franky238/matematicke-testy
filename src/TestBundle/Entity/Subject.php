@@ -47,6 +47,11 @@ class Subject
     private $teachers;
 
     /**
+     * @ORM\OneToMany(targetEntity="TestBundle\Entity\ReturnedTest", mappedBy="subject")
+     */
+    private $returnedTests;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -54,6 +59,7 @@ class Subject
         $this->users = new \Doctrine\Common\Collections\ArrayCollection();
         $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
         $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->returnedTests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -187,5 +193,38 @@ class Subject
     public function getTeachers()
     {
         return $this->teachers;
+    }
+
+    /**
+     * Add returnedTests
+     *
+     * @param \TestBundle\Entity\ReturnedTest $returnedTests
+     * @return Subject
+     */
+    public function addReturnedTest(\TestBundle\Entity\ReturnedTest $returnedTests)
+    {
+        $this->returnedTests[] = $returnedTests;
+
+        return $this;
+    }
+
+    /**
+     * Remove returnedTests
+     *
+     * @param \TestBundle\Entity\ReturnedTest $returnedTests
+     */
+    public function removeReturnedTest(\TestBundle\Entity\ReturnedTest $returnedTests)
+    {
+        $this->returnedTests->removeElement($returnedTests);
+    }
+
+    /**
+     * Get returnedTests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReturnedTests()
+    {
+        return $this->returnedTests;
     }
 }

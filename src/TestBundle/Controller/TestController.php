@@ -18,6 +18,19 @@ use TestBundle\Form\TestUploadType;
 class TestController extends Controller
 {
     /**
+     * @Route("/tests", name="test/index")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $tests = $this->getDoctrine()->getRepository('TestBundle:Test')->findAll();
+
+        return array(
+            'tests' => $tests
+        );
+    }
+
+    /**
      * @Route("/create-test", name="test/create")
      * @Template()
      *
@@ -42,6 +55,23 @@ class TestController extends Controller
 
         return array(
           'form' => $form->createView()
+        );
+    }
+
+    /**
+     * @Route("/test/{id}", name="test/detail")
+     * @Template()
+     */
+    public function detailAction($id)
+    {
+        $test = $this->getDoctrine()->getRepository('TestBundle:Test')->find($id);
+        $returnedTests = $this->getDoctrine()->getRepository('TestBundle:ReturnedTest')->findBy(array(
+            'test' => $test
+        ));
+
+        return array(
+            'test' => $test,
+            'returnedTests' => $returnedTests
         );
     }
 }

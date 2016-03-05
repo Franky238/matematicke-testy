@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use TestBundle\Entity\User;
 use TestBundle\Form\UserAddType;
@@ -22,7 +23,12 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        return array();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $subjects = $this->getDoctrine()->getRepository('TestBundle:User')->find($user)->getSubjects();
+
+        return array(
+            'subjects' => $subjects
+        );
     }
 
     /**
@@ -88,5 +94,22 @@ class UserController extends Controller
         $this->get('session')->getFlashBag()->add('success', 'Žiak '.$user->getUsername().' dostal zákaz vstupovať do systému');
 
         return $this->redirectToRoute("teacher/index");
+    }
+
+    /**
+     * @Route("/student/show-subject/{id}", name="user/show/subject")
+     * @Template()
+     */
+    public function showSubjectAction($id)
+    {
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $subject = $this->getDoctrine()->getRepository('TestBundle:Subject')->find($id);
+        if(!in_array($user, $subject->getUsers()->toArray())) {
+            throw new AccessDeniedHttpException("Nemáš prístup do tohto predmetu");
+        }
+
+        return array(
+            'subject' => $subject
+        );
     }
 }

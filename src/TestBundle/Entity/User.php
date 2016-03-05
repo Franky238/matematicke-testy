@@ -69,10 +69,16 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $isEnabled = true;
 
+    /**
+     * @ORM\OneToMany(targetEntity="TestBundle\Entity\ReturnedTest", mappedBy="user")
+     */
+    private $returnedTests;
+
     public function __construct()
     {
         $this->salt = md5(uniqid(null, true));
         $this->subjects = new ArrayCollection();
+        $this->returnedTests = new ArrayCollection();
     }
 
     /**
@@ -279,5 +285,48 @@ class User implements AdvancedUserInterface, \Serializable
     public function getSubjects()
     {
         return $this->subjects;
+    }
+
+    /**
+     * Get isEnabled
+     *
+     * @return boolean 
+     */
+    public function getIsEnabled()
+    {
+        return $this->isEnabled;
+    }
+
+    /**
+     * Add returnedTests
+     *
+     * @param \TestBundle\Entity\ReturnedTest $returnedTests
+     * @return User
+     */
+    public function addReturnedTest(\TestBundle\Entity\ReturnedTest $returnedTests)
+    {
+        $this->returnedTests[] = $returnedTests;
+
+        return $this;
+    }
+
+    /**
+     * Remove returnedTests
+     *
+     * @param \TestBundle\Entity\ReturnedTest $returnedTests
+     */
+    public function removeReturnedTest(\TestBundle\Entity\ReturnedTest $returnedTests)
+    {
+        $this->returnedTests->removeElement($returnedTests);
+    }
+
+    /**
+     * Get returnedTests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getReturnedTests()
+    {
+        return $this->returnedTests;
     }
 }

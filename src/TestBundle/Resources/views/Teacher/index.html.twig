@@ -33,7 +33,11 @@
                         {% for test in tests %}
                             <tr>
                                 <td>{{ test.id }}</td>
-                                <td>{{ test.name }}</td>
+                                <td>
+                                    <a href="{{ path('test/detail', {'id': test.id}) }}">
+                                        {{ test.name }}
+                                    </a>
+                                </td>
                                 <td>
                                     <a href="{{ asset('uploads/tests/') }}{{ test.path }}" class="btn btn-info btn-xs" download="{{ test.name }}">
                                         <i class="fa fa-download"></i>
@@ -118,6 +122,10 @@
                                 <td>{{ subject.id }}</td>
                                 <td>{{ subject.name }}</td>
                                 <td>
+                                    <a href="{{ path('subject/edit', {'id': subject.id}) }}" class="btn btn-info btn-xs">
+                                        <i class="fa fa-pencil"></i>
+                                        Upraviť
+                                    </a>
                                     <a href="#!" class="btn btn-danger btn-xs">
                                         <i class="fa fa-trash"></i>
                                         Zmazať

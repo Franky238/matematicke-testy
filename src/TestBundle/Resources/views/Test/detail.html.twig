@@ -1,0 +1,93 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">Prehľad testu</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Názov</label>
+                        <input type="text" class="form-control" disabled="disabled" value="{{ test.name }}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Prílohy</label>
+                    </div>
+                    <div class="form-group">
+                        <a href="{{ asset('uploads/tests/') }}{{ test.path }}" download="{{ test.name }}">
+                            <i class="fa fa-file-pdf-o fa-4x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Odovzdané testy</div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered" id="data-table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Meno</th>
+                            <th>Priezvisko</th>
+                            <th>Tuke identif.</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for test in returnedTests %}
+                            <tr>
+                                <td>{{ test.id }}</td>
+                                <td>
+                                    {{ test.user.name }}
+                                </td>
+                                <td>
+                                    {{ test.user.surname }}
+                                </td>
+                                <td>
+                                    {{ test.user.username }}
+                                </td>
+
+                                <td>
+                                    <a href="{{ asset('uploads/returned_tests/') }}{{ test.path }}" class="btn btn-info btn-xs" download="{{ test.test.name }}">
+                                        <i class="fa fa-download"></i>
+                                        Stiahnuť
+                                    </a>
+                                    <a href="#!" class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash"></i>
+                                        Zmazať
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('#data-table').DataTable({
+                language: {
+                    url: "{{ asset('assets/js/datatables-lang/slovak.json') }}"
+                }
+            });
+        });
+    </script>
+{% endblock %}

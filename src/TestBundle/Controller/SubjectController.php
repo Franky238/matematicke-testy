@@ -41,6 +41,29 @@ class SubjectController extends Controller
     }
 
     /**
+     * @Route("/edit-subject/{id}", name="subject/edit")
+     * @Template()
+     */
+    public function editAction(Request $request, $id)
+    {
+        $subject = $this->getDoctrine()->getRepository('TestBundle:Subject')->find($id);
+        $form = $this->createForm(new SubjectAddType(), $subject);
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($subject);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Predmet bol upravený');
+
+            return $this->redirectToRoute("teacher/index");
+        }
+
+        return array(
+            'form' => $form->createView()
+        );
+    }
+
+    /**
      * @Route("/subject/add-student", name="subject/add-student")
      */
     public function addUserToSubjectAction(Request $request)

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+    {% block styles %}{% endblock %}
 </head>
 <body>
     <div class="wrapper">
@@ -60,6 +61,12 @@
                         Dashboard
                     </a>
                 </li>
+                <li>
+                    <a href="{{ path('test/index') }}">
+                        <i class="fa fa-file-pdf-o"></i>
+                        Testy
+                    </a>
+                </li>
                 <li class="divider"></li>
                     <li>
                         <a href="{{ path('teacher/add') }}">
@@ -108,10 +115,9 @@
             </div>
         </div>
     </div>
-    {% block js %}{% endblock %}
-
     <script src="{{ asset('assets/js/jquery.min.js') }}" ></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}" ></script>
     <script src="{{ asset('assets/js/script.js') }}" ></script>
+    {% block js %}{% endblock %}
 </body>
 </html>

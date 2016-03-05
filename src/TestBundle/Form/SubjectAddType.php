@@ -15,6 +15,14 @@ class SubjectAddType extends AbstractType
                 'label' => 'Názov',
                 'attr' => array('class' => 'form-control', 'placeholder' => 'Názov...')
             ))
+            ->add('tests', 'entity', array(
+                'class' => 'TestBundle\Entity\Test',
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => false,
+                'label' => 'Priraď testy (výber viac cez tlačidlo Ctrl)',
+                'attr' => array('class' => 'form-control')
+            ))
         ;
     }
 

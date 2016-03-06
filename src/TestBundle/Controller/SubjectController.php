@@ -23,6 +23,7 @@ class SubjectController extends Controller
      */
     public function addAction(Request $request)
     {
+        $teacher = $this->get('security.token_storage')->getToken()->getUser();
         $subject = new Subject();
         $form = $this->createForm(new SubjectAddType(), $subject);
         $form->handleRequest($request);

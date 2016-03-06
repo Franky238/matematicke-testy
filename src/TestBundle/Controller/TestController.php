@@ -44,7 +44,6 @@ class TestController extends Controller
 
         if($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
             $test->upload();
             $em->persist($test);
             $em->flush();

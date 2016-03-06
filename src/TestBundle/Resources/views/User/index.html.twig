@@ -18,6 +18,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Názov</th>
+                                <th>Vyučujúci</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -27,8 +28,15 @@
                                     <td>
                                         <a href="{{ path('user/show/subject', {'id': subject.id}) }}">
                                             {{ subject.name }}
-
                                         </a>
+                                    </td>
+                                    <td>
+                                        {% if subject.teachers is not null %}
+                                            {% for teacher in subject.teachers %}
+                                                {{ teacher.name }} {{ teacher.surname }}
+                                                {%- if not loop.last -%}, {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -39,6 +47,7 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 {% block js %}

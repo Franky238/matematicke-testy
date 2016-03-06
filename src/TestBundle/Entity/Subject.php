@@ -41,7 +41,7 @@ class Subject
     private $tests;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Teacher", mappedBy="subjects")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Teacher", inversedBy="subjects")
      * @ORM\JoinTable(name="teacher_has_subject")
      */
     private $teachers;
@@ -165,12 +165,12 @@ class Subject
     /**
      * Add teachers
      *
-     * @param \TestBundle\Entity\Teacher $teachers
+     * @param \TestBundle\Entity\Teacher $teacher
      * @return Subject
      */
-    public function addTeacher(\TestBundle\Entity\Teacher $teachers)
+    public function addTeacher(\TestBundle\Entity\Teacher $teacher)
     {
-        $this->teachers[] = $teachers;
+        $this->teachers[] = $teacher;
 
         return $this;
     }
@@ -178,11 +178,11 @@ class Subject
     /**
      * Remove teachers
      *
-     * @param \TestBundle\Entity\Teacher $teachers
+     * @param \TestBundle\Entity\Teacher $teacher
      */
-    public function removeTeacher(\TestBundle\Entity\Teacher $teachers)
+    public function removeTeacher(Teacher $teacher)
     {
-        $this->teachers->removeElement($teachers);
+        $this->teachers->removeElement($teacher);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace TestBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use TestBundle\Entity\Subject;
 
 class SubjectAddType extends AbstractType
 {
@@ -23,12 +24,22 @@ class SubjectAddType extends AbstractType
                 'label' => 'Priraď testy (výber viac cez tlačidlo Ctrl)',
                 'attr' => array('class' => 'form-control')
             ))
+            ->add('teachers', 'entity', array(
+                'class' => 'TestBundle\Entity\Teacher',
+                'choice_label' => 'surname',
+                'multiple' => true,
+                'expanded' => false,
+                'label' => 'Priraď učiteľov (výber viac cez tlačidlo Ctrl)',
+                'attr' => array('class' => 'form-control')
+            ))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-
+        $resolver->setDefaults(array(
+            'data_class' => 'TestBundle\Entity\Subject'
+        ));
     }
 
     public function getName()

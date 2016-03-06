@@ -58,7 +58,7 @@ class Teacher implements UserInterface, \Serializable
     private $salt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Subject", inversedBy="teachers")
+     * @ORM\ManyToMany(targetEntity="TestBundle\Entity\Subject", mappedBy="teachers")
      */
     private $subjects;
 
@@ -246,5 +246,13 @@ class Teacher implements UserInterface, \Serializable
     public function getSubjects()
     {
         return $this->subjects;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name . " " . $this->surname;
     }
 }

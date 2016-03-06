@@ -5,6 +5,9 @@
  */
 
 /* Toggle Styles */
+.inline-block {
+    display: inline-block;
+}
 
 .wrapper {
     padding-left: 0;

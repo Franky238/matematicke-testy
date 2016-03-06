@@ -21,6 +21,7 @@ class UsersToSubjectType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'label' => 'Vyberte žiakov (výber viac cez tlačidlo Ctrl)',
+                'required' => false,
                 'attr' => array('class' => 'form-control')
             ))
             ;

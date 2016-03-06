@@ -329,4 +329,12 @@ class User implements AdvancedUserInterface, \Serializable
     {
         return $this->returnedTests;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->id . " : " . $this->name . " : " . $this->surname . " : " . $this->username;
+    }
 }

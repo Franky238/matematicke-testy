@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use TestBundle\Entity\Subject;
 use TestBundle\Form\SubjectAddType;
+use TestBundle\Form\UsersToSubjectType;
 
 /**
  * @Route("/teacher")
@@ -57,7 +58,8 @@ class SubjectController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($subject);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Predmet bol vytvorený');
+            $this->get('session')->getFlashBag()->add('success', 'Predmet <a href="'.$this->generateUrl("subject/detail", array("id" => $subject->getId())).'">'.$subject->getName().'</a> bol vytvorený.');
+
 
             return $this->redirectToRoute("teacher/index");
         }
@@ -80,7 +82,8 @@ class SubjectController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($subject);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Predmet bol upravený');
+            $this->get('session')->getFlashBag()->add('success', 'Predmet <a href="'.$this->generateUrl("subject/detail", array("id" => $subject->getId())).'">'.$subject->getName().'</a> bol upravený.');
+
 
             return $this->redirectToRoute("teacher/index");
         }
@@ -108,5 +111,34 @@ class SubjectController extends Controller
         $this->get('session')->getFlashBag()->add('success', 'Študent '.$user->getUsername().' bol pridaný do predmetu '.$subject->getName());
 
         return $this->redirectToRoute("teacher/index");
+    }
+
+    /**
+     * @Route("/subject/{id}/add-students", name="subject/add-students")
+     * @Template()
+     */
+    public function addUsersToSubjectAction(Request $request, $id)
+    {
+        $subject = $this->getDoctrine()->getRepository('TestBundle:Subject')->find($id);
+        $form = $this->createForm(new UsersToSubjectType(), $subject);
+        $form->handleRequest($request);
+
+        if($form->isValid()){
+            $users = $subject->getUsers();
+            $em = $this->getDoctrine()->getManager();
+            foreach($users as $user) {
+                $user->addSubject($subject);
+                $em->persist($user);
+            }
+            $em->persist($subject);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('success', 'Žiaci boli pridaný do predmetu <a href="'.$this->generateUrl("subject/detail", array("id" => $subject->getId())).'">'.$subject->getName().'</a>');
+
+            return $this->redirectToRoute("teacher/index");
+        }
+
+        return array(
+            'form' => $form->createView()
+        );
     }
 }

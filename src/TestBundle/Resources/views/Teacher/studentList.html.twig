@@ -1,0 +1,56 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Žiaci</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Meno</th>
+                            <th>Priezvisko</th>
+                            <th>Tuke identif.</th>
+                            <th>Povoliť/Zakázať prihlasenie</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.surname }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    {% if not user.isEnabled %}
+                                        <a href="{{ path('user/enable', {'id': user.id}) }}" class="btn btn-success btn-xs">
+                                            <i class="fa fa-unlock"></i>
+                                            Povoliť
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('user/disable', {'id': user.id}) }}" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-lock"></i>
+                                            Zakázať
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

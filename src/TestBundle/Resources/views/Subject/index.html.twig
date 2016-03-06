@@ -1,0 +1,79 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Testy
+                    <a href="{{ path('subject/add') }}" class="btn btn-success pull-right btn-xs">
+                        <i class="fa fa-book"></i>
+                        Pridaj predmet
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <div class="dataTables_wrapper">
+                        <table class="table table-striped table-bordered" id="data-table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Názov</th>
+                                <th>Vyučujúci</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for subject in subjects %}
+                                <tr>
+                                    <td>{{ subject.id }}</td>
+                                    <td>
+                                        <a href="{{ path('subject/detail', {'id': subject.id}) }}">
+                                            {{ subject.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {% if subject.teachers is not null %}
+                                            {% for teacher in subject.teachers %}
+                                                {{ teacher.name }} {{ teacher.surname }}
+                                                {%- if not loop.last -%}, {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('subject/edit', {'id': subject.id}) }}" class="btn btn-info btn-xs">
+                                            <i class="fa fa-pencil"></i>
+                                            Upraviť
+                                        </a>
+                                        <a href="{{ path('subject/edit', {'id': subject.id}) }}" class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash"></i>
+                                            Zmazať
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('#data-table').DataTable({
+                language: {
+                    url: "{{ asset('assets/js/datatables-lang/slovak.json') }}"
+                }
+            });
+        });
+    </script>
+{% endblock %}

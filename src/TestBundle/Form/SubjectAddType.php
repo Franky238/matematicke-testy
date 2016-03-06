@@ -26,7 +26,6 @@ class SubjectAddType extends AbstractType
             ))
             ->add('teachers', 'entity', array(
                 'class' => 'TestBundle\Entity\Teacher',
-                'choice_label' => 'surname',
                 'multiple' => true,
                 'expanded' => false,
                 'label' => 'Priraď učiteľov (výber viac cez tlačidlo Ctrl)',

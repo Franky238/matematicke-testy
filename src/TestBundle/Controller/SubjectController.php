@@ -18,6 +18,32 @@ use TestBundle\Form\SubjectAddType;
 class SubjectController extends Controller
 {
     /**
+     * @Route("/subjects", name="subject/index")
+     * @Template()
+     */
+    public function indexAction()
+    {
+        $subjects = $this->getDoctrine()->getRepository('TestBundle:Subject')->findAll();
+
+        return array(
+            'subjects' => $subjects
+        );
+    }
+
+    /**
+     * @Route("/subject/{id}", name="subject/detail")
+     * @Template()
+     */
+    public function detailAction($id)
+    {
+        $subject = $this->getDoctrine()->getRepository('TestBundle:Subject')->find($id);
+
+        return array(
+            'subject' => $subject
+        );
+    }
+
+    /**
      * @Route("/create-subject", name="subject/add")
      * @Template()
      */

@@ -65,4 +65,31 @@ class TeacherController extends Controller
           'form' => $form->createView()
         );
     }
+
+    /**
+     * @Route("/directory", name="teacher/student-list")
+     * @Template()
+     */
+    public function studentListAction()
+    {
+        $users = $this->getDoctrine()->getRepository('TestBundle:User')->findAll();
+
+        return array(
+            'users' => $users
+        );
+    }
+
+    /**
+     * @Route("/teacher-list", name="teacher/teacher-list")
+     * @Template()
+     */
+    public function teacherListAction()
+    {
+        $teachers = $this->getDoctrine()->getRepository('TestBundle:Teacher')->findAll();
+
+        return array(
+            'teachers' => $teachers
+        );
+    }
+
 }

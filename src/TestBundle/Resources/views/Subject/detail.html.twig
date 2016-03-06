@@ -1,0 +1,95 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('assets/css/datatables.min.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">Prehľad predmetu</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Názov</label>
+                        <input type="text" class="form-control" disabled="disabled" value="{{ subject.name }}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Vyučujúci</label>
+                    </div>
+                    <div class="form-group">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Meno</th>
+                                    <th>Priezvisko</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for teacher in subject.teachers %}
+                                <tr>
+                                    <td>{{ teacher.id }}</td>
+                                    <td>{{ teacher.name }}</td>
+                                    <td>{{ teacher.surname }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Testy</label>
+                    </div>
+                    <div class="form-group">
+                        <table class="table table-striped table-bordered" id="data-table">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Názov</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for test in subject.tests %}
+                                <tr>
+                                    <td>{{ test.id }}</td>
+                                    <td>
+                                        <a href="{{ path('test/detail', {'id': test.id}) }}">
+                                            {{ test.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ asset('uploads/tests/') }}{{ test.path }}" class="btn btn-info btn-xs" download="{{ test.name }}">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                            Stiahnuť
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{{ asset('assets/js/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.datatables.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('#data-table').DataTable({
+                language: {
+                    url: "{{ asset('assets/js/datatables-lang/slovak.json') }}"
+                }
+            });
+        });
+    </script>
+{% endblock %}

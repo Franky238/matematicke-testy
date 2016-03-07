@@ -1,0 +1,34 @@
+{% extends 'TestBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Odovzdanie testu
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {{ form_start(form, {'attr': {'class': 'form'}}) }}
+                    {{ form_widget(form._token) }}
+                    <div class="form-group">
+                        {{ form_label(form.file) }}
+                        {{ form_widget(form.file) }}
+                        {{ form_errors(form.file) }}
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">
+                        <i class="fa fa-file-pdf-o"></i>
+                        Odovzdaj test
+                    </button>
+                    {{ form_end(form, {'render_rest': false}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

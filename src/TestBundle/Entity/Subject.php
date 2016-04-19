@@ -62,7 +62,6 @@ class Subject
         $this->returnedTests = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
      * Get id
      *

@@ -84,7 +84,6 @@ class SubjectController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'Predmet <a href="'.$this->generateUrl("subject/detail", array("id" => $subject->getId())).'">'.$subject->getName().'</a> bol upravený.');
 
-
             return $this->redirectToRoute("teacher/index");
         }
 
@@ -140,5 +139,27 @@ class SubjectController extends Controller
         return array(
             'form' => $form->createView()
         );
+    }
+
+    /**
+     * @Route("/teacher/subject/{id}/delete", name="subject/delete")
+     */
+    public function deleteAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $subject = $em->getRepository('TestBundle:Subject')->find($id);
+
+        if(!$subject) {
+            $this->get('session')->getFlashBag()->add('error', 'Tento záznam nebol najdený');
+
+            return $this->redirectToRoute('subject/index');
+        }
+
+        $em->remove($subject);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Predmet bol vymazaný');
+
+        return $this->redirectToRoute('subject/index');
     }
 }

@@ -7,6 +7,20 @@
 {% block body %}
     <div class="row">
         <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-exclamation-triangle"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title inline-block">
@@ -50,7 +64,7 @@
                                             <i class="fa fa-pencil"></i>
                                             Upraviť
                                         </a>
-                                        <a href="{{ path('subject/edit', {'id': subject.id}) }}" class="btn btn-danger btn-xs">
+                                        <a href="{{ path('subject/delete', {'id': subject.id}) }}" onclick="return throwAllert(this);" class="btn btn-danger btn-xs">
                                             <i class="fa fa-trash"></i>
                                             Zmazať
                                         </a>

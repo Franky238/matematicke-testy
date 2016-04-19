@@ -12,6 +12,20 @@
                     <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
                 </div>
             {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-exclamation-triangle"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
             <div class="panel panel-default">
                 <div class="panel-heading">Prehľad testu</div>
                 <div class="panel-body">
@@ -45,25 +59,25 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for test in returnedTests %}
+                        {% for rTest in returnedTests %}
                             <tr>
-                                <td>{{ test.id }}</td>
+                                <td>{{ rTest.id }}</td>
                                 <td>
-                                    {{ test.user.name }}
+                                    {{ rTest.user.name }}
                                 </td>
                                 <td>
-                                    {{ test.user.surname }}
+                                    {{ rTest.user.surname }}
                                 </td>
                                 <td>
-                                    {{ test.user.username }}
+                                    {{ rTest.user.username }}
                                 </td>
 
                                 <td>
-                                    <a href="{{ asset('uploads/returned_tests/') }}{{ test.path }}" class="btn btn-info btn-xs" download="{{ test.test.name }}">
+                                    <a href="{{ asset('uploads/returned_tests/') }}{{ rTest.path }}" class="btn btn-info btn-xs" download="{{ rTest.test.name }}">
                                         <i class="fa fa-download"></i>
                                         Stiahnuť
                                     </a>
-                                    <a href="#!" class="btn btn-danger btn-xs">
+                                    <a href="{{ path('returned-test/delete', {'id': rTest.id, 'parent_id': test.id}) }}" onclick="return throwAllert(this);" class="btn btn-danger btn-xs">
                                         <i class="fa fa-trash"></i>
                                         Zmazať
                                     </a>

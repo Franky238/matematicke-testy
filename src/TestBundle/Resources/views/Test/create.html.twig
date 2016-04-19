@@ -2,6 +2,20 @@
 
 {% block body %}
     <div class="row">
+        <div class="col-sm-12">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    <i class="fa fa-check-square-o"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+            {% for flashMessage in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger" role="alert">
+                    <i class="fa fa-exclamation-triangle"></i> {{ flashMessage|raw }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-8 col-lg-offset-2">
             {% for flashMessage in app.session.flashbag.get('success') %}
                 <div class="alert alert-success" role="alert">

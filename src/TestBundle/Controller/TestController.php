@@ -73,4 +73,27 @@ class TestController extends Controller
             'returnedTests' => $returnedTests
         );
     }
+
+    /**
+     * @Route("/test/delete/{id}", name="test/delete")
+     */
+    public function deleteAction($id)
+    {
+        $test = $this->getDoctrine()->getRepository('TestBundle:Test')->find($id);
+
+        if($test->getReturnedTests()->count() > 0) {
+            $this->get('session')->getFlashBag()->add('error', 'Tento test nemôže byť zmazaný lebo obsahuje vrátené
+            testy. Prvé zmažte vrátené testy');
+
+            return $this->redirectToRoute('test/detail', array('id' => $id));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($test);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Test bol zmazaný');
+
+        return $this->redirectToRoute('test/index');
+    }
 }

@@ -4,6 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/chosen.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -24,13 +26,13 @@
                     <li>
                     <a href="{{ path('student/security/login') }}">
                         <i class="fa fa-sign-in"></i>
-                        Prihlásenie žiaka
+                        Prihlásenie študenta
                     </a>
                 </li>
                 <li>
                     <a href="{{ path('student/register') }}">
                         <i class="fa fa-user-plus"></i>
-                        Registrácia žiaka
+                        Registrácia študenta
                     </a>
                 </li>
                 <li class="divider"></li>
@@ -76,7 +78,7 @@
                 <li>
                     <a href="{{ path('teacher/student-list') }}">
                         <i class="fa fa-users"></i>
-                        Žiaci
+                        Študenti
                     </a>
                 </li>
                 <li>
@@ -125,7 +127,7 @@
                 {% endif %}
             </div>
         </nav>
-        <div id="page-content-wrapper" class="animated hidden">
+        <div id="page-content-wrapper" class="animated">
             <div id="page-content-wrapper">
                 <div class="container-fluid">
                     {% block body %}{% endblock %}
@@ -135,6 +137,8 @@
     </div>
     <script src="{{ asset('assets/js/jquery.min.js') }}" ></script>
     <script src="{{ asset('assets/js/bootstrap.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/chosen.jquery.min.js') }}" ></script>
+    <script src="{{ asset('assets/js/sweetalert.min.js') }}" ></script>
     <script src="{{ asset('assets/js/script.js') }}" ></script>
     {% block js %}{% endblock %}
 </body>

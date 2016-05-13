@@ -32,7 +32,7 @@ class SubjectController extends Controller
     }
 
     /**
-     * @Route("/subject/{id}", name="subject/detail")
+     * @Route("/subject/{id}/detail", name="subject/detail")
      * @Template()
      */
     public function detailAction($id)
@@ -131,7 +131,8 @@ class SubjectController extends Controller
             }
             $em->persist($subject);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Žiaci boli pridaný do predmetu <a href="'.$this->generateUrl("subject/detail", array("id" => $subject->getId())).'">'.$subject->getName().'</a>');
+            $this->get('session')->getFlashBag()->add('success', 'Študenti boli pridaný do predmetu <a href="'
+                .$this->generateUrl("subject/detail", array("id" => $subject->getId())).'">'.$subject->getName().'</a>');
 
             return $this->redirectToRoute("teacher/index");
         }
